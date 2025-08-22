@@ -1,0 +1,7 @@
+go 1.23
+
+use (
+	./gateway
+	./service_a
+	./service_b
+)

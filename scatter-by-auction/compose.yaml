@@ -1,0 +1,69 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4.1.3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - scatter-by-auction_network
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    image: examples_scatter-by-auction_gateway
+    container_name: scatter-by-auction_gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - rabbitmq
+    networks:
+      - scatter-by-auction_network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./gateway
+
+  service_a:
+    build:
+      context: ./service_a
+      dockerfile: Dockerfile
+    image: examples_scatter-by-auction_service_a
+    container_name: scatter-by-auction_service-a
+    ports:
+      - "4010:4010"
+    depends_on:
+      - rabbitmq
+      - gateway
+    networks:
+      - scatter-by-auction_network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./service_a
+
+  service_b:
+    build:
+      context: ./service_b
+      dockerfile: Dockerfile
+    image: examples_scatter-by-auction_service_b
+    container_name: scatter-by-auction_service-b
+    ports:
+      - "4020:4020"
+    depends_on:
+      - rabbitmq
+      - gateway
+    networks:
+      - scatter-by-auction_network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./service_b
+
+networks:
+  scatter-by-auction_network:
+    driver: bridge
+    name: scatter-by-auction_network
