@@ -1,4 +1,4 @@
-# With Combined Controller and Aggregator
+# Scatter by Distribution: Combined Controller and Aggregator
 
 This example implements a minimal scatter-gather pattern where the controller acts as the aggregator.
 
