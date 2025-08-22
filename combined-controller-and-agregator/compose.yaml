@@ -1,0 +1,49 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    image: examples-scatter-gather-combined-gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - service_a
+      - service_b
+    networks:
+      - scatter-gather-network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./gateway
+
+  service_a:
+    build:
+      context: ./service_a
+      dockerfile: Dockerfile
+    image: examples-scatter-gather-combined-service_a
+    ports:
+      - "4010:4010"
+    networks:
+      - scatter-gather-network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./service_a
+
+  service_b:
+    build:
+      context: ./service_b
+      dockerfile: Dockerfile
+    image: examples-scatter-gather-combined-service_b
+    ports:
+      - "4020:4020"
+    networks:
+      - scatter-gather-network
+    develop:
+      watch:
+        - action: rebuild
+          path: ./service_b
+
+networks:
+  scatter-gather-network:
+    driver: bridge

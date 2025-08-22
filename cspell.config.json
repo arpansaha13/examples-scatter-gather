@@ -1,0 +1,15 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "languageSettings": [],
+  "words": [
+    "GOCACHE",
+    "gomod",
+    "GOMODCACHE",
+    "goroutines",
+    "ldflags"
+  ],
+  "useGitignore": true,
+  "caseSensitive": false,
+  "allowCompoundWords": false
+}
